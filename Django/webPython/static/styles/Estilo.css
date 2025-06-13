@@ -1,0 +1,19 @@
+body{
+	background-Color: aqua
+}
+.Titulo{
+	font-size: 40px;
+	color: blue;
+}
+.Subtitulo{
+	font-size: 30px;
+	color: red;
+}
+.FilaCabecera{
+	background-Color: blue;
+	color:white;
+}
+.FilaDatos{
+background-Color: white;
+	color:blue;	
+}

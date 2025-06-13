@@ -1,0 +1,19 @@
+<html>
+	<body>
+		{% load static %}
+		<link href="{% static 'static/styles/DACP.css'%}?v={{Ver}}" rel="stylesheet" />
+		<div class="Titulo">Demo 17: Animacion de Texto en el Canvas</div>
+		<div>Comando de Voz: <span id="spnComando"></span></div>
+		<table>
+			<tr>
+				<td style="width:200px">Mensaje a Animar: </td>
+				<td style="width:320px"><input id="txtMensaje" type="text" style="width:300px" value="Hola Mundo"></td>
+				<td style="width:200px">
+					<input id="btnAnimar" type="button" class="Boton" value="Animar">
+				</td>
+			</tr>
+		</table>
+		<canvas id="canvas" width="1400" height="600"></canvas>
+		<script src="{% static 'appDemo17/AnimacionTexto.js' %}?v={{Ver}}"></script>
+	</body>
+</html>

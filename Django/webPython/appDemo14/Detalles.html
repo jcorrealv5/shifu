@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detalles</title>
+</head>
+<body>
+    {% load static %}
+    <link href="{% static 'static/styles/DACP.css'%}?v={{Ver}}" rel="stylesheet" />
+    <div id="divPrincipal">
+        <div id="divTituloDetalle" class="Titulo NoImprimir">Carrito de Compras</div>
+        <div id="divSubtituloDetalle" class="Subtitulo NoImprimir">Detalle de Pedidos</div>
+        <div id="divDatosOrden" class="Mensaje" style="clear:left">Datos de la Orden</div>
+        <div style="clear:left">
+            <div id="divIdOrden" style="width:10%;float:left">Id Orden</div>
+            <div id="divFecha" style="width:25%;float:left">Fecha</div>
+        </div>
+        <div style="clear:left">
+            <div style="width:10%;float:left"><input id="txtIdOrden" type="text" style="width:60px" disabled="disabled" /></div>
+            <div style="width:25%;float:left"><input id="txtFechaOrden" type="text" style="width:200px" disabled="disabled" /></div>
+        </div>
+        <div id="divDatosCliente" class="Mensaje" style="clear:left">Datos del Cliente</div>
+        <div style="clear:left">
+            <div id="divCodigoCliente" style="width:10%;float:left">Código</div>
+            <div id="divNombreCliente" style="width:40%;float:left">Nombre</div>
+            <div id="divDireccionCliente" style="width:25%;float:left">Dirección</div>
+            <div id="divContactoCliente" style="width:25%;float:left">Correo</div>
+        </div>
+        <div style="clear:left">
+            <div style="width:10%;float:left"><input id="txtIdCliente" type="text" style="width:60px" disabled="disabled" class="C" /></div>
+            <div style="width:40%;float:left"><input id="txtNomCliente" type="text" style="width:500px" disabled="disabled" class="C" /></div>
+            <div style="width:25%;float:left"><input id="txtDireccion" type="text" style="width:300px" disabled="disabled" class="C" /></div>
+            <div style="width:25%;float:left"><input id="txtCorreo" type="text" style="width:300px" disabled="disabled" class="C" /></div>
+        </div>
+        <div style="clear:left;text-align:center" class="NoImprimir">
+            <input id="btnRegresar" type="button" value="Regresar" class="Boton" />
+            <input id="btnGrabar" type="button" value="Grabar" class="Boton" />
+            <input id="btnImprimir" type="button" value="Imprimir" class="Boton" />
+        </div>
+        <div id="divDetalle" style="clear:left"></div>
+    </div>
+    <div><span id="spnValida"></span></div>
+    <input id="hdfCliente" type="hidden" value="{{Cliente}}" />
+    <input id="hdfRaiz" type="hidden" value="/static/Static/" />
+    {% csrf_token %}
+    <iframe name="print_frame" width="0" height="0" frameborder="0" src="about:blank"></iframe>
+    <script src="{% static 'static/scripts/General.js' %}?v={{Ver}}"></script>
+	<script src="{% static 'appDemo14/Detalles.js' %}?v={{Ver}}"></script>
+</body>
+</html>

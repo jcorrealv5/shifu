@@ -1,0 +1,31 @@
+<html>
+	<body>
+		{% load static %}
+		<link href="{% static 'static/styles/DACP.css'%}?v={{Ver}}" rel="stylesheet" />
+		<div class="Titulo">Demo 28: Grabacion de Miles de Registros x Bloques</div>
+		<div class="Subtitulo">
+			Seleccione un Archivo CSV con la Data a Cargar:
+			<input id="txtArchivo" type="text" style="width:300px"/>
+			<input id="btnAbrir" type="button" class="BotonSmall" value="..."/>
+			<input id="fupArchivo" type="file" style="display:none"/>
+			&nbsp;&nbsp;&nbsp;Registros x Bloque: <input id="txtRegistrosBloque" type="text" value="1000"/>
+			<input id="btnGrabar" type="button" class="Boton" value="Grabar"/>
+		</div>
+		<div>
+			<div>
+				<span id="spnRegistros" class="Mensaje"></span> - <span id="spnBloques" class="Mensaje"></span>
+			</div>
+			<div>
+				<span id="spnProgresoRegistros" class="Mensaje"></span> - <span id="spnProgresoBloques" class="Mensaje"></span>
+				<br/>
+				<progress id="progreso" style="width:1000px" value="0"/>
+			</div>
+		</div>
+		<div><span id="spnMensaje"></span></div>
+		<div id="divData"></div>
+		<input type="hidden" id="hdfRaiz" value="/static/static/"/>
+		{% csrf_token %}
+		<script src="{% static 'static/scripts/General.js' %}?v={{Ver}}"></script>
+		<script src="{% static 'appDemo28/CargaMasiva.js' %}?v={{Ver}}"></script>
+	</body>
+</html>

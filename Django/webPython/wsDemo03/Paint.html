@@ -1,0 +1,14 @@
+<html>
+	<body>
+		{% load static %}
+		<link href="{% static 'static/styles/DACP.css'%}?v={{Ver}}" rel="stylesheet" />
+		<div class="Titulo">Demo 03: Cliente Web Socket Paint</div>
+		<div class="Subtitulo">Paint con Python y JS</div>
+		<div>Estado del Web Socket: <span id="spnEstado"></span></div>		
+		<div>Selecciona el Color: <input id="txtColor" type="color" />
+		<div><input id="btnLimpiar" type="button" value="Limpiar"></div>
+		<canvas id="canvas" width="1000px" height="500px"></canvas>
+		<input type="hidden" id="hdfRaiz" value="/static/static/"/>
+		<script src="{% static 'wsDemo03/Paint.js' %}?v={{Ver}}"></script>
+	</body>
+</html>

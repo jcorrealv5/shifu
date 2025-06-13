@@ -1,0 +1,13 @@
+<html>
+	<body>
+		{% load static %}
+		<link href="{% static 'static/styles/DACP.css'%}" rel="stylesheet" />
+		<div class="Titulo">{{titulo}}</div>
+		<div class="Subtitulo">{{subtitulo}}</div>
+		<div id="divProducto"></div>
+		<h3>{{pie}}</h3>
+		<input type="hidden" id="hdfRaiz" value="/static/static/"/>
+		<script src="{% static 'appDemo04/Consulta.js' %}"></script>
+		<script src="{% static 'static/scripts/General.js' %}"></script>
+	</body>
+</html>
