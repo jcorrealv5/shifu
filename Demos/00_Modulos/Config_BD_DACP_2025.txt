@@ -1,0 +1,5 @@
+driver=ODBC Driver 17 for SQL Server
+servidor=DESKTOP-F4UDH2D
+usuario=sa
+clave=123456
+basedatos=BD_DACP_2025
