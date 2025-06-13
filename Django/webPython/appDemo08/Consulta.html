@@ -1,0 +1,20 @@
+<html>
+	<body>
+		{% load static %}
+		<link href="{% static 'static/styles/DACP.css'%}?v={{Ver}}" rel="stylesheet" />
+		<div class="Titulo">Demo 08: Consulta de Imagenes Paginando para Traer</div>
+		<div class="Subtitulo">Imagenes de Alumnos</div>
+		<div>
+			<input id="btnConsultar" type="button" value="Consultar" class="Boton"/>
+		</div>
+		<div id="divProgreso">
+			<span id="spnMensaje"></span>
+			<progress id="pbrConsulta" style="width:800px" value="0"></progress>
+		</div>
+		<div id="divRpta" style="width:1000px;height:500px;overflow-y:auto"></div>
+		<input type="hidden" id="hdfRaiz" value="/static/static/"/>
+		{% csrf_token %}
+		<script src="{% static 'static/scripts/General.js' %}?v={{Ver}}"></script>
+		<script src="{% static 'appDemo08/Consulta.js' %}?v={{Ver}}"></script>
+	</body>
+</html>

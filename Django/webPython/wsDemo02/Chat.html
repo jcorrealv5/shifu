@@ -1,0 +1,24 @@
+<html>
+	<body>
+		{% load static %}
+		<link href="{% static 'static/styles/DACP.css'%}?v={{Ver}}" rel="stylesheet" />
+		<div class="Titulo">Demo 02: Cliente Web Socket Chat</div>
+		<div class="Subtitulo">Chat con Python y JS</div>
+		<div>Estado del Web Socket: <span id="spnEstado"></span></div>
+		<table>
+			<tr>
+				<td>Usuario</td>
+				<td>Mensaje</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><input id="txtUsuario" type="text" style="width:100px"/></td>
+				<td><input id="txtMensaje" type="text" style="width:500px"/></td>
+				<td><input id="btnEnviar" type="button" class="Boton" value="Enviar"/></td>
+			</tr>
+		</table>
+		<div id="divPanel" style="width:1000;heigth:500;overflow-y:auto"></div>
+		<input type="hidden" id="hdfRaiz" value="/static/static/"/>
+		<script src="{% static 'wsDemo02/Chat.js' %}?v={{Ver}}"></script>
+	</body>
+</html>

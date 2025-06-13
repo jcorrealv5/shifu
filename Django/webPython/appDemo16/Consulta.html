@@ -1,0 +1,26 @@
+<html>
+	<body>
+		{% load static %}
+		<link href="{% static 'static/styles/DACP.css'%}?v={{Ver}}" rel="stylesheet" />
+		<div class="Titulo">Demo 16: Consulta Cabecera Detalle Vista Jerarquica</div>
+		<div class="Subtitulo">Consulta de Ordenes-Detalles</div>
+		<table>
+			<tr>
+				<td style="width:150px">Id Orden Inicio</td>
+				<td style="width:120px"><input id="txtIdOrdenInicio" type="text" style="width:80px" maxlength="5" class="R N" value="10248"></td>
+				<td style="width:150px">Id Orden Fin</td>
+				<td style="width:120px"><input id="txtIdOrdenFin" type="text" style="width:80px" maxlength="5" class="R N" value="10250"></td>
+				<td style="width:400px">
+					<input id="btnConsultar" type="button" class="Boton" value="Consultar">
+					<input id="btnImprimir" type="button" class="Boton" value="Imprimir">
+				</td>
+			</tr>
+		</table>
+		<div><span id="spnValida" class="Mensaje"></span></div>
+		<div id="divReporte"></div>
+		<input type="hidden" id="hdfRaiz" value="/static/static/"/>
+		<iframe name="print_frame" width="0" height="0" frameborder="0" src="about:blank"></iframe>
+		<script src="{% static 'static/scripts/General.js' %}?v={{Ver}}"></script>
+		<script src="{% static 'appDemo16/Consulta.js' %}?v={{Ver}}"></script>
+	</body>
+</html>

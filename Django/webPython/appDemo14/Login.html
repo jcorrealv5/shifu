@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+    {% load static %}
+    <link href="{% static 'static/styles/DACP.css'%}" rel="stylesheet" />
+    <div>
+        <div id="divTituloLogin" class="Titulo">Demo 14: Sistema Carrito de Compras (Imagenes con Bytes)</div>
+        <div class="Marco">
+            <div id="divSubtituloLogin" style="clear:left" class="Subtitulo">Login del Sistema</div>
+            <div id="divUsuario">Ingresa el Usuario:</div>
+            <div><input id="txtUsuario" type="text" style="width:200px" maxlength="20" class="R" /></div>
+            <div id="divClave">Ingresa la Clave:</div>
+            <div><input id="txtClave" type="password" style="width:100px" maxlength="10" class="R" /></div>
+            <div>
+                <img id="imgCaptcha" width="220" height="80" />
+            </div>
+            <div>
+                <span id="spnActualizarCaptcha" class="Enlace">Actualizar Captcha</span>
+            </div>
+            <div id="divCodigoCaptcha">Ingresa Codigo Generado:</div>
+            <div>
+                <input id="txtCodigo" type="text" style="width:60px" maxlength="6" class="R" />
+                &nbsp;&nbsp;
+                <input id="btnAceptar" type="button" value="Aceptar" class="Boton" />
+            </div>
+            <div><span id="spnValida"></span></div>
+        </div>
+    </div>
+    {% csrf_token %}
+    <script src="{% static 'static/scripts/General.js' %}"></script>
+    <script src="{% static 'static/scripts/sha256.js' %}"></script>
+    <script src="{% static 'appDemo14/Login.js' %}"></script>
+</body>
+</html>

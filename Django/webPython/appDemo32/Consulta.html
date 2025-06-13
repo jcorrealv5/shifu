@@ -1,0 +1,18 @@
+<html>
+	<body>
+		{% load static %}
+		<link href="{% static 'static/styles/DACP.css'%}?v={{Ver}}" rel="stylesheet" />
+		<div class="Titulo">Demo 32: Consulta de un Servicio Web que devuelve CSV/JSON/XML</div>
+		<div class="Subtitulo">Consulta de Productos</div>
+		<div>
+			Codigo del Producto:
+			<input id="txtCodigo" type="text" style="width:100px" class="N"/>
+			<select id="cboTipo"><option value="csv">CSV</option><option value="json">JSON</option><option value="xml">XML</option></select>
+			<input id="btnConsultar" type="button" class="Boton" value="Consultar"/>
+		</div>
+		<div>Total de Registros: <span id="spnMensaje"></span></div>
+		<div id="divProducto"></div>
+		<input type="hidden" id="hdfRaiz" value="/static/static/"/>
+		<script src="{% static 'appDemo32/Consulta.js' %}?v={{Ver}}"></script>
+	</body>
+</html>

@@ -1,0 +1,17 @@
+<html>
+	<body>
+		{% load static %}
+		<link href="{% static 'static/styles/DACP.css'%}?v={{Ver}}" rel="stylesheet" />
+		<div class="Titulo">Demo 31: Consulta de un Servicio Web que devuelve XML</div>
+		<div class="Subtitulo">Consulta de Productos</div>
+		<div>
+			Codigo del Producto:
+			<input id="txtCodigo" type="text" style="width:100px" class="N"/>
+			<input id="btnConsultar" type="button" class="Boton" value="Consultar"/>
+		</div>
+		<div>Total de Registros: <span id="spnMensaje"></span></div>
+		<div id="divProducto"></div>
+		<input type="hidden" id="hdfRaiz" value="/static/static/"/>
+		<script src="{% static 'appDemo31/Consulta.js' %}?v={{Ver}}"></script>
+	</body>
+</html>

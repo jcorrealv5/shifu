@@ -1,0 +1,66 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.views.decorators.clickjacking import xframe_options_exempt
+from Modulos.modAccesoDatos import clienteSQL
+import os
+
+def Mantenimiento(request):    
+    return render(request, "appDemo12/Mantenimiento.html", {"Ver": "1.0001"})
+    
+def ObtenerListas(request):
+    archivoConfig = r"C:\Users\jhonf\Documents\Shifu\Django\webPython\Modulos\Config_BD_DACP_2025.txt"
+    archivoLog = r"C:\Users\jhonf\Documents\Shifu\Django\LogDjango_Demo11.txt"
+    con = clienteSQL(archivoConfig, archivoLog)
+    data = con.EjecutarComandoCadena("uspProductoListasCboCsv") 
+    return HttpResponse(data)
+
+def ObtenerProductoPorId(request):
+    id = request.GET.get("id")
+    archivoConfig = r"C:\Users\jhonf\Documents\Shifu\Django\webPython\Modulos\Config_BD_DACP_2025.txt"
+    archivoLog = r"C:\Users\jhonf\Documents\Shifu\Django\LogDjango_Demo11.txt"
+    con = clienteSQL(archivoConfig, archivoLog)
+    data = con.EjecutarComandoCadena("uspProductoObtenerPorId2","ProductID",id) 
+    return HttpResponse(data)
+
+@xframe_options_exempt
+def GrabarProducto(request):
+    data = request.POST.get("Data")
+    archivoConfig = r"C:\Users\jhonf\Documents\Shifu\Django\webPython\Modulos\Config_BD_DACP_2025.txt"
+    archivoLog = r"C:\Users\jhonf\Documents\Shifu\Django\LogDjango_Demo11.txt"
+    con = clienteSQL(archivoConfig, archivoLog)
+    data = con.EjecutarComandoCadena("uspProductoGrabar3Csv","Data",data,trx=True) 
+    if(data!=""):
+        listas = data.split("_")
+        id = listas[1]
+        rutaImagenes = "C:/Users/jhonf/Documents/Shifu/Django/webPython/static/Productos/"
+        archivoImg = os.path.join(rutaImagenes, id + ".jpg")        
+        if(len(request.FILES)>0):
+            if(os.path.isfile(archivoImg)):
+                os.remove(archivoImg)
+            fileOrigen = request.FILES["Archivo"]
+            fileOrigen.open()
+            buffer = fileOrigen.read()
+            fileOrigen.close()
+            with open(archivoImg, "wb") as fileDestino:
+                fileDestino.write(buffer)            
+    return HttpResponse(data)
+
+def EliminarProductoPorId(request):
+    id = request.GET.get("id")
+    archivoConfig = r"C:\Users\jhonf\Documents\Shifu\Django\webPython\Modulos\Config_BD_DACP_2025.txt"
+    archivoLog = r"C:\Users\jhonf\Documents\Shifu\Django\LogDjango_Demo11.txt"
+    con = clienteSQL(archivoConfig, archivoLog)
+    data = con.EjecutarComandoCadena("uspProductoEliminar3Csv","ProductID",id,trx=True) 
+    return HttpResponse(data)
+
+def ObtenerImagen(request):
+    buffer = None
+    id = request.GET.get("id")
+    rutaImagenes = "C:/Users/jhonf/Documents/Shifu/Django/webPython/static/Productos/"
+    archivoImg = os.path.join(rutaImagenes, id + ".jpg")
+    if(not os.path.isfile(archivoImg)):
+        archivoImg = os.path.join(rutaImagenes, "No.jpg")
+    print("Archivo Img: ", archivoImg)
+    with open(archivoImg, "rb") as file:
+        buffer = file.read()
+    return HttpResponse(buffer, content_type="image/jpeg")

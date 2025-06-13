@@ -1,0 +1,20 @@
+<html>
+	<body>
+		{% load static %}
+		<link href="{% static 'static/styles/DACP.css'%}?v={{Ver}}" rel="stylesheet" />
+		<div class="Titulo">Demo 21: Grafico de Columnas 3D en el Canvas</div>
+		<div class="Subtitulo">Consulta de Stock de Productos x Categoria</div>
+		<div>
+			<div style="float:left;width:30%">				
+				<div id="divCategoria"></div>
+			</div>
+			<div style="float:left;width:70%">
+				<div><input id="btnDescargar" type="button" class="Boton" value="Descargar"></div>
+				<canvas id="canvas" width="1000" height="600"></canvas>
+			</div>
+		</div>
+		<input type="hidden" id="hdfRaiz" value="/static/static/"/>
+		<script src="{% static 'static/scripts/General.js' %}?v={{Ver}}"></script>
+		<script src="{% static 'appDemo21/GraficoColumnas3D.js' %}?v={{Ver}}"></script>
+	</body>
+</html>
