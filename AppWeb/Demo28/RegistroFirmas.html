@@ -1,0 +1,18 @@
+<html>
+	<body>
+		{% load static %}
+		<link href="{% static 'static/styles/DADLCV.css'%}" rel="stylesheet" />
+		<div class="Titulo">Demo 28: Registro de Firmas</div>
+		<div class="Subtitulo">Usuario: <input id="txtUsuario" type="text" value="Lduenas" style="width:200px"></div>
+		<div class="Subtitulo">Dibuja una Firma</div>
+		<div>
+			<input type="button" id="btnGrabar" value="Grabar"/>
+			<input type="button" id="btnNuevo" value="Nuevo"/>
+		</div>
+		<div>
+			<canvas id="canvas" width="800" height="400" class="Negro"></canvas>
+		</div>
+		{% csrf_token %}
+		<script src="{% static 'Demo28/RegistroFirmas.js'%}"></script>
+	</body>
+</html>
