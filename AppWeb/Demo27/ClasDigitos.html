@@ -1,0 +1,21 @@
+<html>
+	<body>
+		{% load static %}
+		<link href="{% static 'static/styles/DADLCV.css'%}" rel="stylesheet" />
+		<div class="Titulo">Demo 27: Clasificacion de Digitos</div>
+		<div class="Subtitulo">Dibuja un Digito</div>
+		<div>
+			<input type="button" id="btnClasificar" value="Clasificar"/>
+			<input type="button" id="btnNuevo" value="Nuevo"/>
+		</div>
+		<table>
+			<tr>
+				<td style="width:40%"><canvas id="canvas" width="500" height="500" class="Negro"></canvas></td>
+				<td style="width:10%"></td>
+				<td style="width:40%"><div id="divDigito" class="CuadroNegro" style="font-size:350pt;color:white;text-align:center"></div></td>
+			</tr>
+		</table>
+		{% csrf_token %}
+		<script src="{% static 'Demo27/ClasDigitos.js'%}"></script>
+	</body>
+</html>

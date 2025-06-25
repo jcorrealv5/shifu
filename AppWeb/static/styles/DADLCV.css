@@ -1,0 +1,23 @@
+body{
+	background-color:lightblue;	
+}
+.Titulo{
+	background-color:black;
+	color:white;
+	font-size:x-large;
+}
+.Subtitulo{
+	background-color:white;
+	color:black;
+	font-size:large;
+}
+.Negro{
+	float:left;
+	background-color:black;	
+}
+.CuadroNegro{
+	float:left;
+	width:500px;
+	height:500px;
+	background-color:black;	
+}
