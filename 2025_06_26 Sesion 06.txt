@@ -1,0 +1,178 @@
+*****************************************************************
+Actualidad en Inteligencia Artificial
+*****************************************************************
+Empresa IA: Startup => InflectionAI => Microsoft
+- CEO (Manager): Mustafa Suleiman (Ex Deep Mind)
+- CTO (Tecnico): Karen Simonyan (U.Oxford)
+- Inversor (Plata): Reid Hoffman (Linked-In)
+
+Deep Mind => U.Oxford (A. Zizsermann), UCL (David Silver)
+
+
+*****************************************************************
+Trabajando con Tensores en PyTorch
+*****************************************************************
+1. Creacion de Tensores
+
+1.1. Desde una Lista de Python
+import torch
+lista = [1,2,3]
+tensorLista = torch.tensor(lista)
+
+1.2. Desde un Array de NumPy
+import torch, numpy as np
+arreglo = np.array([1,2,3], dtype=np.int32)
+tensorArreglo = torch.from_numpy(arreglo)
+
+1.3. Desde un Archivo de Imagen en Disco
+from torchvision.io import decode_image
+tensorImagen = decode_image("archivo.png", mode="RGB")
+
+1.4. Relleno de Ceros
+import torch
+tensorCeros = torch.zeros(filas, cols)
+
+1.5. Relleno de Unos
+import torch
+tensorCeros = torch.ones(filas, cols)
+
+1.5. Relleno de Numeros al Azar
+import torch
+tensorAzar = torch.rand(filas, cols)
+
+2. Ver Forma, Cambiar el Tipo de Datos y la Forma de un Tensor
+
+2.1. Ver Forma de un Tensor
+import torch
+tensor = torch.tensor([[1,2,3],[4,5,6])
+print(tensor.shape) => torch.Size([2,3])
+
+Notas: Imagen a Color (3 Canales: RGB, 400 Filas x 500 Cols)
+- En NumPy: arreglo.shape() => (400,500,3)
+- En PyTorch: tensor.shape() => (3,400,500)
+
+2.2. Cambiar el Tipo de Datos de un Tensor
+import torch
+tensorEnteros = torch.tensor([1,2,3])
+tensorFlotantes = tensorEnteros.to(torch.float32)
+
+2.3. Transposicion de un Tensor
+import torch
+tensor23 = torch.rand(2, 3)
+tensor32 = torch.transpose(tensor23, 0, 1)
+
+2.4. Cambiar la Forma de un Tensor
+import torch
+tensor6 = torch.zeros(6)
+tensor32 = tensor6.reshape(3,2)
+
+2.5. Aumentar una dimension a un Tensor
+import torch
+tensor23 = torch.rand(2, 3)
+tensor123 = torch.unsqueeze(tensor23, 0)
+
+2.6. Eliminar una dimension a un Tensor
+import torch
+tensor23 = torch.squeeze(tensor123, 0)
+
+3. Operaciones Matematicas con Tensores
+
+3.1. Multiplicacion de Tensores (Elementos)
+tensor1 = torch.rand(2, 3)
+tensor2 = torch.rand(2, 3)
+tensor3 = torch.multiply(tensor1, tensor2)
+
+3.2. Multiplicacion de Tensores (Matricial)
+tensor1 = torch.rand(2, 3)
+tensor2 = torch.rand(3, 2)
+tensor3 = torch.matmul(tensor1, torch.transpose(tensor2))
+
+*****************************************************************
+Tipos de Núcleos (Kernels) de Convolución
+*****************************************************************
+1. Núcleo de Identidad
+- El núcleo identidad es el tipo más simple de núcleo de convolución
+- Básicamente, deja la imagen de entrada sin cambios.
+- Kernel = [[0,0,0],[0,1,0],[0,0,0]]
+
+2. Núcleos de Detección de Bordes
+- Los núcleos de detección de bordes se utilizan para resaltar los bordes de una imagen.
+- Resaltan las regiones con cambios de intensidad elevados, que corresponden a los bordes.
+
+2.1. Núcleo de Detección de Bordes Horizontales (Horizontal Edge Detection Kernel)
+- Detecta los bordes horizontales resaltando las áreas donde hay cambios significativos de intensidad en la dirección vertical.
+- Kernel = [[-1,-1,-1],[0,0,0],[1,1,1]]
+
+2.2. Núcleo de Detección de Bordes Verticales (Vertical Edge Detection Kernel)
+- Detecta los bordes verticales enfatizando áreas con cambios significativos de intensidad en la dirección horizontal.
+- Kernel = [[-1,0,1],[-1,0,1],[-1,0,1]]
+
+3. Núcleo de Nitidez (Sharpening Kernel)
+- Realza los bordes y detalles de una imagen, haciéndola más nítida y definida.
+- Funciona amplificando las diferencias de intensidad de los píxeles.
+- Aumenta el contraste alrededor de los bordes, haciéndolos más pronunciados.
+- Kernel = [[0,-1,0],[-1,5,-1],[0,-1,0]]
+
+4. Núcleo de Desenfoque de Caja (Box Blur Kernel)
+- También conocido como Filtro Promedio, se utiliza para desenfocar una imagen.
+- Promedia valores de píxeles dentro del área del kernel, suavizando la imagen y reduciendo ruido.
+- Asigna el mismo peso a cada píxel en la ventana del kernel, lo que da como resultado un efecto de desenfoque uniforme.
+- Kernel = [[1/9,1/9,1/9],[1/9,1/9,1/9],[1/9,1/9,1/9]]
+
+5. Núcleo de Desenfoque Gaussiano (Gaussian Blur Kernel)
+- Se usa para reducir el ruido y el detalle de la imagen promediando los valores de los píxeles con una distribución gaussiana ponderada.
+- Este kernel es útil para crear un efecto de desenfoque suave que minimiza el ruido de alta frecuencia en la imagen.
+- Este kernel asigna pesos mayores a los píxeles centrales y pesos progresivamente menores a los píxeles circundantes, lo que da como resultado un desenfoque más natural.
+- Kernel = 1/16*[[1,2,1],[2,4,2],[1,2,1]]
+
+6. Núcleo de Sobel (Sobel Kernels)
+- Se utilizan para detectar bordes en imágenes mediante el énfasis en los gradientes.
+- Calculan la primera derivada de la intensidad de la imagen tanto en dirección horizontal como vertical, lo que los hace eficaces para la detección de bordes.
+
+6.1. Núcleo Sobel Horizontal
+- Este núcleo detecta los bordes horizontales enfatizando los gradientes verticales.
+- Kernel = [[-1,0,1],[-2,0,2],[-1,0,1]]
+
+6.2. Núcleo Sobel Vertical
+- Este núcleo detecta los bordes verticales enfatizando los gradientes horizontales.
+- Kernel = [[-1,-2,-1],[0,0,0],[1,2,1]]
+
+7. Núcleos Prewitt (Prewitt Kernels)
+- Son similares a los de Sobel, se utilizan para la detección de bordes.
+- Calculan los gradientes en dirección horizontal y vertical, lo que proporciona una forma sencilla de detectar bordes en imágenes.
+
+7.1. Núcleo Prewitt Horizontal
+- Este núcleo enfatiza los cambios horizontales en intensidad.
+- Kernel = [[-1,0,1],[-1,0,1],[-1,0,1]]
+
+7.2. Núcleo Prewitt Vertical
+- Este núcleo enfatiza los cambios verticales en intensidad.
+- Kernel = [[-1,-1,-1],[0,0,0],[1,1,1]]
+
+8. Núcleo Laplaciano (Laplacian Kernel)
+- Es un operador derivado de segundo orden utilizado para la detección de bordes.
+- Resalta regiones con cambios rápidos de intensidad y es especialmente útil para encontrar bordes en imágenes con ruido.
+- Este núcleo calcula la segunda derivada de la imagen, proporcionando una forma precisa de detectar bordes al resaltar áreas donde la intensidad cambia rápidamente.
+- Kernel = [[0,-1,0],[-1,4,-1],[0,-1,0]]
+
+9. Núcleos Scharr (Scharr Kernels)
+- Los núcleos de Scharr son similares a los de Sobel y Prewitt
+- Ofrecen una mejor simetría rotacional y una detección de bordes más precisa.
+- Se utilizan para detectar bordes con mayor precisión, lo que los hace ideales para aplicaciones que requieren información detallada sobre los bordes.
+
+9.1. Núcleo Scharr Horizontal
+- Este núcleo enfatiza los cambios horizontales en intensidad con mayor precisión.
+- Kernel = [[3,0,-3],[10,0,-10],[3,0,-3]]
+
+9.2. Núcleo Scharr Vertical
+- Este núcleo enfatiza los cambios verticales de intensidad con mayor precisión.
+- Kernel = [[3,10,3],[0,0,0],[-3,-10,-3]]
+
+
+*****************************************************************
+Convolución en PyTorch
+*****************************************************************
+1. Convolucion 2D
+imagenes = torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
+
+imagenes: Mapa de Caracteristicas o Conjunto de Imagenes Filtradas o Convolucionadas
