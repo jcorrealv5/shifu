@@ -1,0 +1,21 @@
+<html>
+	<body>
+		{% load static %}
+		<link href="{% static 'static/styles/DADLCV.css'%}" rel="stylesheet" />
+		<div class="Titulo">Demo 60: Clasificacion Binaria del Digito 0 con CNN PyTorch</div>
+		<div class="Subtitulo">Dibuja el Digito 0</div>
+		<div>
+			<input type="button" id="btnClasificar" value="Clasificar"/>
+			<input type="button" id="btnNuevo" value="Nuevo"/>
+		</div>
+		<table>
+			<tr>
+				<td style="width:40%"><canvas id="canvas" width="500" height="500" class="Negro"></canvas></td>
+				<td style="width:10%"></td>
+				<td style="width:40%"><div id="divDigito" class="CuadroNegro" style="font-size:300pt;color:white;text-align:center"></div></td>
+			</tr>
+		</table>
+		{% csrf_token %}
+		<script src="{% static 'Demo60/ClasDigito0.js'%}"></script>
+	</body>
+</html>
