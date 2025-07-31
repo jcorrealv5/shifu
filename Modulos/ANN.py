@@ -49,15 +49,18 @@ class CNN:
         num_correct = 0
         num_samples = 0
         modelo.eval()
+        total = 0
         with torch.no_grad():
             for x, y in dataLoader:
                 x = x.to(device)
                 y = y.to(device)
+                total += y.numel()
                 scores = modelo(x)
                 _, predictions = scores.max(1)
                 num_correct += (predictions == y).sum()
                 num_samples += predictions.size(0)
         modelo.train()
+        print("Total de Pruebas: ", total)
         return num_correct / num_samples
     
     def CheckAccuracyBin(modelo, dataLoader, device):
@@ -75,33 +78,87 @@ class CNN:
         modelo.train()
         return num_correct / num_samples
 
-    def Train(modelo, dataLoader, device, nEpocas=3, lr=0.001):
+    def Train(modelo, dataLoader, device, nEpocas=3, lr=0.001, stopLoss=0):
         criterio = nn.CrossEntropyLoss()
-        optimizador = torch.optim.Adam(modelo.parameters(), lr=0.001)
+        optimizador = torch.optim.Adam(modelo.parameters(), lr)
+        print("Learning Rate: ", lr)
+        print("Nro Epocas: ", nEpocas)
+        encontroOptimo = False
         for epoch in range(nEpocas):
-            for batch_idx, (data, targets) in enumerate(dataLoader):
+            total = 0
+            for id, (data, targets) in enumerate(dataLoader):
                 X_train = data.to(device)
                 y_train = targets.to(device)
+                total += y_train.numel()
+                #print(f"Epoca: {epoch}, Item: {id}, y_train: {y_train}, cant: {y_train.numel()}")
                 scores = modelo(X_train)
                 loss = criterio(scores, y_train)        
                 optimizador.zero_grad()
                 loss.backward()
                 optimizador.step()
-            print(f"Epoca: {epoch}, Loss: {loss}, Batchs: {batch_idx}")
+            if(loss<=0.001 or (stopLoss>0 and loss<=stopLoss)):
+                encontroOptimo = True
+                torch.save(modelo.state_dict(), 'Epoca' + str(epoch) + '.pt')
+                break
+            print(f"Epoca: {epoch}, Perdida: {loss}, Total: {total}")
+        if((stopLoss==0 and encontroOptimo==False) or encontroOptimo==False):
+            torch.save(modelo.state_dict(), 'Epoca' + str(nEpocas) + '.pt')
 
-    def TrainBin(modelo, dataLoader, device, nEpocas=3, lr=0.001, batchSize=32):
+    def TrainBin(modelo, dataLoader, device, nEpocas=3, lr=0.001, batchSize=32, totalMuestras=1000, stopLoss=0):
         criterio = nn.BCEWithLogitsLoss()
-        optimizador = torch.optim.Adam(modelo.parameters(), lr=0.001)
+        optimizador = torch.optim.Adam(modelo.parameters(), lr=0.001)        
+        print("Learning Rate: ", lr)
+        print("Nro Epocas: ", nEpocas)
+        print("BatchSize: ", batchSize)
+        print("Total Muestras: ", totalMuestras)
         for epoch in range(nEpocas):
-            for batch_idx, (data, targets) in enumerate(dataLoader):
-                X_train = data.to(device)
-                y_train = targets.to(device).reshape(32,1).float()
-                scores = modelo(X_train)
-                loss = criterio(scores, y_train)        
-                optimizador.zero_grad()
-                loss.backward()
-                optimizador.step()
-            print(f"Epoca: {epoch}, Loss: {loss}, Batchs: {batch_idx}")
+            total = 0
+            for id, (data, targets) in enumerate(dataLoader):
+                if(total<(totalMuestras-batchSize)):
+                    X_train = data.to(device)
+                    y_train = targets.to(device).reshape(batchSize,1).float()
+                    #print(f"Epoca: {epoch}, Nro Item: {id}, y_train: {y_train}")
+                    total += y_train.numel()
+                    scores = modelo(X_train)
+                    loss = criterio(scores, y_train)
+                    optimizador.zero_grad()
+                    loss.backward()
+                    optimizador.step()
+            if(loss<=0.009 or (stopLoss>0 and loss<=stopLoss)):
+                encontroOptimo = True
+                torch.save(modelo.state_dict(), 'Epoca' + str(epoch) + '.pt')
+                break
+            print(f"Epoca Bin: {epoch}, Perdida Bin: {loss}, Total: {total}")
+        if((stopLoss==0 and encontroOptimo==False) or encontroOptimo==False):
+            torch.save(modelo.state_dict(), 'Epoca' + str(nEpocas) + '.pt')
+
+    def TrainBinLoss(modelo, dataLoader, device, criterio = nn.BCELoss(), nEpocas=3, lr=0.001, batchSize=32, totalMuestras=1000, stopLoss=0):
+        optimizador = torch.optim.Adam(modelo.parameters(), lr=0.001)        
+        print("Criterio: ", criterio)
+        print("Learning Rate: ", lr)
+        print("Nro Epocas: ", nEpocas)
+        print("BatchSize: ", batchSize)
+        print("Total Muestras: ", totalMuestras)
+        for epoch in range(nEpocas):
+            total = 0
+            for id, (data, targets) in enumerate(dataLoader):
+                if(total<(totalMuestras-batchSize)):
+                    X_train = data.to(device)
+                    y_train = targets.to(device).reshape(batchSize,1).float()
+                    #print(f"Epoca: {epoch}, Nro Item: {id}, y_train: {y_train}")
+                    total += y_train.numel()
+                    scores = modelo(X_train)
+                    loss = criterio(scores, y_train)
+                    optimizador.zero_grad()
+                    loss.backward()
+                    optimizador.step()
+            if(loss<=0.009 or (stopLoss>0 and loss<=stopLoss)):
+                encontroOptimo = True
+                torch.save(modelo.state_dict(), 'Epoca' + str(epoch) + '.pt')
+                break
+            print(f"Epoca Bin: {epoch}, Perdida Bin: {loss}, Total: {total}")
+        if((stopLoss==0 and encontroOptimo==False) or encontroOptimo==False):
+            torch.save(modelo.state_dict(), 'Epoca' + str(nEpocas) + '.pt')
 
 class ConvNet2C1P2FC(nn.Module):
     def __init__(self):
@@ -180,4 +237,56 @@ class ConvNet6C3P3FC(nn.Module):
         x = F.relu(self.FC2(x))
         x = self.Dropout2(x)
         x = self.FC3(x)
+        x = F.log_softmax(x, dim=1)
+        return x
+        
+class ConvNetBinCol642C1P2FC(nn.Module):
+    def __init__(self):
+        super(ConvNetBinCol642C1P2FC, self).__init__()
+        self.Conv1 = nn.Conv2d(3, 32, kernel_size=3)
+        self.Conv2 = nn.Conv2d(32, 64, kernel_size=3)
+        self.Pool = nn.MaxPool2d(2, 2)
+        self.FC1 = nn.Linear(64*30*30, 128)
+        self.FC2 = nn.Linear(128, 1)
+        self.Dropout1 = nn.Dropout(0.25)
+        self.Dropout2 = nn.Dropout(0.5)
+    def forward(self,x):
+        x = F.relu(self.Conv1(x))
+        x = F.relu(self.Conv2(x))
+        x = self.Pool(x)
+        x = self.Dropout1(x)
+        x = torch.flatten(x, 1)
+        x = x.view(-1, 64*30*30)
+        x = F.relu(self.FC1(x))
+        x = self.Dropout2(x)
+        x = self.FC2(x)
+        return x
+
+class ConvNetBinCol643C2P3FC(nn.Module):
+    def __init__(self):
+        super(ConvNetBinCol643C2P3FC, self).__init__()
+        self.Conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1)
+        self.Conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
+        self.Conv3 = nn.Conv2d(64, 128, kernel_size=3, padding=1)
+        self.Pool = nn.MaxPool2d(2, 2)
+        self.FC1 = nn.Linear(128*8*8, 1024)
+        self.FC2 = nn.Linear(1024, 128)
+        self.FC3 = nn.Linear(128, 1)
+        self.Dropout1 = nn.Dropout(0.25)
+        self.Dropout2 = nn.Dropout(0.5)
+    def forward(self,x):
+        x = F.relu(self.Conv1(x))
+        x = self.Pool(x)
+        x = F.relu(self.Conv2(x))
+        x = self.Pool(x)
+        x = F.relu(self.Conv3(x))
+        x = self.Pool(x)
+        x = self.Dropout1(x)
+        x = torch.flatten(x, 1)
+        x = x.view(-1, 128*8*8)
+        x = F.relu(self.FC1(x))
+        x = self.Dropout2(x)
+        x = F.relu(self.FC2(x))
+        x = self.FC3(x)
+        x = F.sigmoid(x)
         return x
