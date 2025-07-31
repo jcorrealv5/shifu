@@ -27,6 +27,7 @@ venv.bak/
 *.npz
 *.csv
 *.dat
+*.pt
 
 # Carpeta específica de datasets
 AppTorch/datasets/
